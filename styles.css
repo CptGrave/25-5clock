@@ -1,0 +1,27 @@
+* {
+  margin: 0;
+  padding: 0;
+  color: rgb(8, 0, 255)
+  }
+
+button {
+  background-color: black;
+  cursor: pointer;
+  height: 5vh;
+  width: 10vh;
+}
+
+h1,h2 {
+justify-content: center;
+align-items: center;
+}
+
+#container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+/*
+background: rgb(2,0,36);
+background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(35,61,210,0.932623171338848) 46%, rgba(0,212,255,1) 100%);
