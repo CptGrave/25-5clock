@@ -1,14 +1,65 @@
-* {
-  margin: 0;
-  padding: 0;
-  color: rgb(8, 0, 255)
-  }
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+/*  */
+body {
+  background-color: grey
+}
 
 button {
-  background-color: black;
+  /* background-color: black; */
   cursor: pointer;
-  height: 5vh;
-  width: 10vh;
+  -webkit-box-shadow: 2px 2px 0px 0px rgba(66, 68, 90, 1);
+  -moz-box-shadow: 2px 2px 0px 0px rgba(66, 68, 90, 1);
+  box-shadow: 2px 2px 0px 0px rgba(66, 68, 90, 1);
+  /* height: 5vh;
+  width: 10vh; */
 }
 
 h1,h2 {
@@ -17,11 +68,89 @@ align-items: center;
 }
 
 #container {
+  font-family: monospace;
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  text-transform: uppercase;
+  background-color: white;
+  padding: 40px;
+  border-radius: 10px;
+  -webkit-box-shadow: 8px 8px 0px 0px rgba(66, 68, 90, 1);
+  -moz-box-shadow: 8px 8px 0px 0px rgba(66, 68, 90, 1);
+  box-shadow: 8px 8px 0px 0px rgba(66, 68, 90, 1);
 }
+
+.title {
+  font-size: 20px;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.duration {
+  margin: 5px auto;
+  display: flex;
+  flex-direction: row;
+  /* justify-content: space-between; */
+  align-items: center;
+  text-align: right;
+  max-width: 220px;
+}
+
+.duration-label {
+  padding: 10px;
+  flex-grow: 1;
+}
+
+.duration-value {
+  font-size: 16px;
+  width: 24px;
+  padding: 0 5px;
+  text-align: center;
+  font-weight: 800;
+}
+
+.duration button {
+  padding: 4px 8px;
+}
+
+.time {
+  margin: 40px 0 30px;
+  font-size: 16px;
+  text-align: center;
+}
+
+.time-label {
+  margin-bottom: 5px;
+  font-size: 12px
+}
+
+.time-value {
+  font-size: 48px;
+  font-weight: 800;
+}
+
+.controls {
+  text-align: center;
+}
+
+.controls button {
+  text-transform: uppercase;
+  font-size: 14px;
+  padding: 6px 12px;
+}
+
+.blinking {
+  animation: blinker 1s ease-in-out 10;
+}
+
+@keyframes blinker {
+  60% {
+    color: red;
+  }
+}
+
 /*
 background: rgb(2,0,36);
 background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(35,61,210,0.932623171338848) 46%, rgba(0,212,255,1) 100%);
