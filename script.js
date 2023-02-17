@@ -1,4 +1,4 @@
-let sessionMode = true;
+let interfaceUnlocked = true;
 let breakLength = 5*60;
 let sessionLength = 25*60;
 let clock;
@@ -14,6 +14,7 @@ const timerSeconds = document.getElementById("timer-seconds");
 const timerMinutes = document.getElementById("timer-minutes");
 const playPause = document.getElementById("start_stop")
 const reset = document.getElementById("reset")
+const timerLabel = document.getElementById("timer-label")
 
 function addZero(number) {
   if(number.toString() < 10) {
@@ -22,40 +23,40 @@ function addZero(number) {
 }
 
 breakIncrement.addEventListener("click", () => {
-  if(sessionMode && breakLength < 3600) {
+  if(interfaceUnlocked && breakLength < 3600) {
     breakLength += 60;
     breakElement.textContent = breakLength /60
   }
 })
 
 breakDecrement.addEventListener("click", () => {
-  if(sessionMode && breakLength > 60) {
+  if(interfaceUnlocked && breakLength > 60) {
     breakLength -= 60;
     breakElement.textContent = breakLength /60
   }
 })
 
 sessionDecrement.addEventListener("click", () => {
-  if(sessionMode && sessionLength > 60) {
+  if(interfaceUnlocked && sessionLength > 60) {
     sessionLength -= 60;
     timerMinutes.textContent = sessionLength /60
     sessionElement.textContent = sessionLength /60
   }
 })
 
-
 sessionIncrement.addEventListener("click", () => {
-  if(sessionMode && sessionLength < 3600) {
+  if(interfaceUnlocked && sessionLength < 3600) {
     sessionLength += 60;
     timerMinutes.textContent = sessionLength /60
     sessionElement.textContent = sessionLength /60
   }
 })
 
-playPause.addEventListener("click", startInterval ) 
+playPause.addEventListener("click", startInterval) 
 
 reset.addEventListener('click', ()=>{
-  sessionMode = true;
+  interfaceUnlocked = true;
+  timerLabel.textContent = "Current session time"
   flag = true;
   clearInterval(clock);
   breakLength = 5*60;
@@ -65,48 +66,58 @@ reset.addEventListener('click', ()=>{
   breakElement.textContent = breakLength / 60
   sessionElement.textContent = sessionLength / 60
 })
+
 function switchInterval(breakL,sessionL){
-  if(sessionL === 0 & breakL === 0){
-    console.log("zlapalo zmien czasy na to co jest w inpucie i wyczysc interval")
-    breakLength = Number(breakElement.textContent)
-    sessionLength = Number(sessionElement.textContent)
+  if(sessionL === 0 && breakL === 0){
+    breakLength = Number(breakElement.textContent) * 60
+    sessionLength = Number(sessionElement.textContent) * 60
     clearInterval(clock);
     startInterval()
   }
-
 }
+
 function breakTime(sessionL) {
   if(sessionL === 0) {
-    console.log("its break time")
     clearInterval(clock)
-      clock = setInterval(()=>{
-      breakLength -= 1
+    setTimeout(() => {
       timerMinutes.textContent = addZero(Math.floor(breakLength / 60))
       timerSeconds.textContent = addZero(breakLength % 60)
-      
-      switchInterval(breakLength,sessionLength)
-      },1000)
+      clock = setInterval(
+        () => {
+          breakLength -= 1
+          timerMinutes.textContent = addZero(Math.floor(breakLength / 60))
+          timerSeconds.textContent = addZero(breakLength % 60)
+          switchInterval(breakLength,sessionLength)
+        },
+        1000
+      )
+      timerLabel.textContent = "Current break time"
       flag = !flag
-      
+    }, 1000)
   } 
-  
 }
-
-
 
 function startInterval() {
   if(flag) {
-      clock = setInterval(()=>{
-      sessionLength -= 1
+    setTimeout(() => {
       timerMinutes.textContent = addZero(Math.floor(sessionLength / 60))
       timerSeconds.textContent = addZero(sessionLength % 60)
-      breakTime(sessionLength)
-      },1000)
+      clock = setInterval(
+        () => {
+          sessionLength -= 1
+          timerMinutes.textContent = addZero(Math.floor(sessionLength / 60))
+          timerSeconds.textContent = addZero(sessionLength % 60)
+          breakTime(sessionLength)
+        },
+        1000
+      )
+      timerLabel.textContent = "Current session time"
+      interfaceUnlocked = false;
       flag = !flag
+    }, 1000)
   } else {
-      clearInterval(clock)
-      sessionMode = true;
-      flag = !flag
+    clearInterval(clock)
+    interfaceUnlocked = true;
+    flag = !flag
   }
-sessionMode = false;
 }
