@@ -12,9 +12,10 @@ const sessionDecrement = document.getElementById("session-decrement");
 const sessionElement = document.getElementById("session-length");
 const timerSeconds = document.getElementById("timer-seconds");
 const timerMinutes = document.getElementById("timer-minutes");
-const playPause = document.getElementById("start_stop")
-const reset = document.getElementById("reset")
-const timerLabel = document.getElementById("timer-label")
+const playPause = document.getElementById("start_stop");
+const reset = document.getElementById("reset");
+const timerLabel = document.getElementById("timer-label");
+const audio = document.getElementById("beep");
 
 function addZero(number) {
   if(number.toString() < 10) {
@@ -39,7 +40,7 @@ breakDecrement.addEventListener("click", () => {
 sessionDecrement.addEventListener("click", () => {
   if(interfaceUnlocked && sessionLength > 60) {
     sessionLength -= 60;
-    timerMinutes.textContent = sessionLength /60
+    timerMinutes.textContent = addZero(sessionLength /60)
     sessionElement.textContent = sessionLength /60
   }
 })
@@ -55,31 +56,34 @@ sessionIncrement.addEventListener("click", () => {
 playPause.addEventListener("click", startInterval) 
 
 reset.addEventListener('click', ()=>{
+  audio.pause();
+  audio.currentTime = 0;
   interfaceUnlocked = true;
   timerLabel.textContent = "Current session time"
   flag = true;
   clearInterval(clock);
   breakLength = 5*60;
   sessionLength = 25*60;
-  timerMinutes.textContent = sessionLength /60
+  timerMinutes.textContent = addZero(sessionLength /60)
   timerSeconds.textContent = addZero(sessionLength % 60)
   breakElement.textContent = breakLength / 60
   sessionElement.textContent = sessionLength / 60
 })
 
 function switchInterval(breakL,sessionL){
-  if(sessionL === 0 && breakL === 0){
+  if(sessionL === -1 && breakL === -1){
+    clearInterval(clock);
     breakLength = Number(breakElement.textContent) * 60
     sessionLength = Number(sessionElement.textContent) * 60
-    clearInterval(clock);
     startInterval()
   }
 }
 
 function breakTime(sessionL) {
-  if(sessionL === 0) {
+  if(sessionL === -1) {
+    audio.play()
     clearInterval(clock)
-    setTimeout(() => {
+      timerLabel.textContent = "Current break time"
       timerMinutes.textContent = addZero(Math.floor(breakLength / 60))
       timerSeconds.textContent = addZero(breakLength % 60)
       clock = setInterval(
@@ -91,15 +95,13 @@ function breakTime(sessionL) {
         },
         1000
       )
-      timerLabel.textContent = "Current break time"
       flag = !flag
-    }, 1000)
   } 
 }
 
 function startInterval() {
   if(flag) {
-    setTimeout(() => {
+    timerLabel.textContent = "Current session time"
       timerMinutes.textContent = addZero(Math.floor(sessionLength / 60))
       timerSeconds.textContent = addZero(sessionLength % 60)
       clock = setInterval(
@@ -111,10 +113,8 @@ function startInterval() {
         },
         1000
       )
-      timerLabel.textContent = "Current session time"
       interfaceUnlocked = false;
       flag = !flag
-    }, 1000)
   } else {
     clearInterval(clock)
     interfaceUnlocked = true;
