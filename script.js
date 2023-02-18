@@ -16,6 +16,7 @@ const playPause = document.getElementById("start_stop");
 const reset = document.getElementById("reset");
 const timerLabel = document.getElementById("timer-label");
 const audio = document.getElementById("beep");
+const timeElement = document.getElementById("time-left")
 
 function addZero(number) {
   if(number.toString() < 10) {
@@ -89,6 +90,7 @@ function breakTime(sessionL) {
       clock = setInterval(
         () => {
           breakLength -= 1
+          enableTimeAnimation(breakLength,sessionLength)
           timerMinutes.textContent = addZero(Math.floor(breakLength / 60))
           timerSeconds.textContent = addZero(breakLength % 60)
           switchInterval(breakLength,sessionLength)
@@ -107,9 +109,10 @@ function startInterval() {
       clock = setInterval(
         () => {
           sessionLength -= 1
+          enableTimeAnimation(breakLength,sessionLength)
           timerMinutes.textContent = addZero(Math.floor(sessionLength / 60))
           timerSeconds.textContent = addZero(sessionLength % 60)
-          breakTime(sessionLength)
+          breakTime(sessionLength);
         },
         1000
       )
@@ -119,5 +122,13 @@ function startInterval() {
     clearInterval(clock)
     interfaceUnlocked = true;
     flag = !flag
+  }
+}
+
+function enableTimeAnimation(breakTime,sessionTime) {
+  if(breakTime === 10 || sessionTime === 10) {
+    timeElement.classList.add("blinking")
+  } else if (breakTime === 0 || sessionTime === 0) {
+    timeElement.classList.remove("blinking")
   }
 }
